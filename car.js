@@ -16,6 +16,10 @@ class Car{
 
     // Method to update direction of car
     update(){
+        this.#move();
+    }
+
+    #move(){
         // We are using adding acceleration to the speed. And everytime this happens, we are subtracting the y position by the speed. Giving the illusion of an accelerating car.
         if(this.controls.forward){
             this.speed += this.acceleration;
@@ -42,13 +46,16 @@ class Car{
             this.speed = 0;
         }
 
-        if(this.controls.left){
-            this.angle += 0.03;
+        if(this.speed != 0){
+            const flip = this.speed > 0 ? 1 : -1;
+            if(this.controls.left){
+                this.angle += 0.03*flip;
+            }
+            if(this.controls.right){
+                this.angle -= 0.03*flip;
+            }
         }
-        if(this.controls.right){
-            this.angle -= 0.03;
-        }
-
+        
         // Implementing movement with rotation, sin of angle scaling with speed
         this.x -= Math.sin(this.angle)*this.speed;
         this.y -= Math.cos(this.angle)*this.speed;
