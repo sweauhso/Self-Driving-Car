@@ -20,9 +20,11 @@ class Car{
 
     // Method to update direction of car
     update(roadBorders){
-        this.#move();
-        this.polygon = this.#createPolygon();
-        this.damaged = this.#assessDamage(roadBorders);
+        if(!this.damaged){
+            this.#move();
+            this.polygon = this.#createPolygon();
+            this.damaged = this.#assessDamage(roadBorders);
+        }
         this.sensor.update(roadBorders);
     }
 
