@@ -21,3 +21,22 @@ function getIntersection(A, B, C, D) {
 
     return null;
 }
+
+function polysIntersection(poly1, poly2){
+    // Checking all the points in car, and for all points check the points in the other polygon
+    for(let i = 0; i < poly1.length; i++){
+        for(let j = 0; j < poly2.length; j++){
+            const touch = getIntersection(
+                poly1[i], 
+                // Taking the first point in polygon and the next point, modulo just makes sure it i doesnt go out of bounds and connects the last point in the polygon to the first after the modulo when i reaches out of the array.
+                poly1[(i+1)%poly1.length],
+                poly2[j],
+                poly2[(j+1)%poly2.length]
+            );
+            if(touch){
+                return true;
+            }
+        }
+    }
+    return false; 
+}

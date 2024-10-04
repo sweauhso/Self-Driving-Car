@@ -10,6 +10,8 @@ class Car{
         this.maxSpeed = 3;
         this.friction = 0.05;
         this.angle = 0;
+        //1:16:46
+        this.damaged = false;
 
         this.sensor = new Sensor(this);
         this.controls = new Controls();
@@ -20,7 +22,17 @@ class Car{
     update(roadBorders){
         this.#move();
         this.polygon = this.#createPolygon();
+        this.damaged = this.#assessDamage(roadBorders);
         this.sensor.update(roadBorders);
+    }
+
+    #assessDamage(roadBorders){
+        for(let i = 0; i < roadBorders.length; i++){
+            if(polysIntersection(this.polygon, roadBorders[i])){
+                return true;
+            }
+        }
+        return false;
     }
 
     #createPolygon() {
@@ -95,6 +107,11 @@ class Car{
 
     // Method to draw black box car
     draw(ctx){
+        if(this.damaged){
+            ctx.fillStyle = "gray"
+        }else{
+            ctx.fillStyle = "black"
+        }
         // Using Polygon points to fill and create car
         ctx.beginPath();
         ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
